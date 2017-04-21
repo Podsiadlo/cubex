@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KillingBomb : MonoBehaviour {
+public class KillingBomb : KillingObject {
 
     [SerializeField]
     private float timeToDestroy = 10.0f;
-
 
 	// Use this for initialization
 	void Start () {
@@ -22,7 +21,7 @@ public class KillingBomb : MonoBehaviour {
         {
             Debug.Log("Collision with player!");
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-            player.removeHealth(10);
+            player.removeHealth(damage);
         }
     }
 

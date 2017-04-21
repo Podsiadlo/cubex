@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent (typeof (PlayerController))]
 public class PlayerController : MonoBehaviour {
@@ -79,6 +80,7 @@ public class PlayerController : MonoBehaviour {
         {
             isDead = true;
             Debug.Log("Player is dying.");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KillingCube : MonoBehaviour {
+public class KillingCube : KillingObject {
 
     [SerializeField]
     private float timeToDestroy = 10.0f;

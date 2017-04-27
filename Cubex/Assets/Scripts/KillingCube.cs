@@ -13,4 +13,14 @@ public class KillingCube : KillingObject {
         Destroy(gameObject, timeToDestroy);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "Player")
+        {
+            Debug.Log("Collision with player!");
+            PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+            player.removeHealth(damage);
+        }
+    }
+
 }

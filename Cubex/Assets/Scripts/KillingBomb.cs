@@ -15,7 +15,6 @@ public class KillingBomb : KillingObject {
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log("Collision type: " + collision.gameObject.name);
 
         if(collision.gameObject.name == "Player")
         {

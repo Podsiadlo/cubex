@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour {
     public float playerSpeed = 10.0f;
     public float mouseSensitivity = 5.0f;
     public float playerJumpSpeed = 5.0f;
-    public float minVerticalPosition = -45.0f;
     private float verticalRotation = 0;
     private float verticalVelocity = 0;
     private float maximumAngle = 60.0f;
@@ -25,7 +24,6 @@ public class PlayerController : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        checkIfPlayerFell();
         rotateCharacter();
         moveCharacter();
 	}
@@ -65,6 +63,12 @@ public class PlayerController : MonoBehaviour {
 
         characterController.Move(newSpeed * Time.deltaTime);
     }
+    //czy mozliwe jest wykrycie uderzenia przez inny obiekt
+    //z poziomu CharacterControllera?
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        //Debug.Log("Player's collision with: " + hit.gameObject.name);
+    }
 
     public void removeHealth(int delta)
     {
@@ -74,28 +78,11 @@ public class PlayerController : MonoBehaviour {
 
         if (playerHealth<=0 && !isDead)
         {
-            killPlayer();
+            isDead = true;
+            Debug.Log("Player is dying.");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         
-    }
-
-    private void checkIfPlayerFell()
-    {
-        Vector3 playerPosition = this.transform.position;
-
-        if (playerPosition.y < minVerticalPosition)
-        {
-            Debug.Log("Player current vertical position is " + playerPosition.y);
-            killPlayer();
-        }
-        
-    }
-
-    private void killPlayer()
-    {
-        isDead = true;
-        Debug.Log("Player is dying.");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 }

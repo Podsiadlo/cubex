@@ -9,13 +9,12 @@ public class KillingObject : MonoBehaviour {
 
     protected void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log("Collision type: " + collision.gameObject.name);
 
         if (collision.gameObject.name == "Player")
         {
             Debug.Log("Collision with player!");
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-            player.removeHealth(10);
+            player.kill();
         }
     }
 }

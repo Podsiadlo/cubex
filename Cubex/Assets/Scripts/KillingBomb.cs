@@ -2,25 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class KillingBomb : KillingObject {
 
     [SerializeField]
     private float timeToDestroy = 10.0f;
 
-	// Use this for initialization
+    public AudioSource audioSource;
+
 	void Start () {
         Debug.Log("Init killing bomb.");
-        Destroy(gameObject, timeToDestroy);
+        StartCoroutine(destroy());
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.name == "Player")
         {
-            Debug.Log("Collision with player!");
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
-            player.removeHealth(damage);
+
+            StartCoroutine(killCharacter(player));
+
+            audioSource.Play();
         }
+    }
+
+    private IEnumerator killCharacter(PlayerController player)
+    {
+        yield return new WaitForSeconds(0.5f);
+        player.kill();
+    }
+
+    private IEnumerator destroy()
+    {
+        yield return new WaitForSeconds(timeToDestroy);
+        Destroy(gameObject, timeToDestroy);
     }
 
 }

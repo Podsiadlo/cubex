@@ -6,31 +6,47 @@ using UnityEngine.SceneManagement;
 [RequireComponent (typeof (PlayerController))]
 public class PlayerController : MonoBehaviour {
     private CharacterController characterController;
+    private AudioSource audioSource;
+    private Rigidbody ridgitBody;
+
+    //PUBLIC VARIABLES
+    public float minVerticalPosition = -55.0f;
+    public float fallingSoundPosition = -38.0f;
     public float playerSpeed = 10.0f;
     public float mouseSensitivity = 5.0f;
     public float playerJumpSpeed = 5.0f;
+    public AudioClip jumpSound;
+    public AudioClip fallingSound;
+
     private float verticalRotation = 0;
     private float verticalVelocity = 0;
     private float maximumAngle = 60.0f;
     private int playerHealth = 100;
     private bool isDead = false;
+    private int deathCounter = 0;
+    private AudioClip[] footsteps = new AudioClip[0];
+    private bool isPlayerFalling = false;
 
-	// Use this for initialization
-	void Start () {
+    void Start () {
         Debug.Log("Init PlayerController");
+
         disableMouseCursor();
         characterController = GetComponent<CharacterController>();
+        audioSource = GetComponent<AudioSource>();
+        ridgitBody = GetComponent<Rigidbody>();
+        footsteps = Resources.LoadAll<AudioClip>("Audio/Player");
     }
 
-    // Update is called once per frame
     void Update () {
+        checkIfPlayerFelt();
         rotateCharacter();
         moveCharacter();
 	}
 
     private void disableMouseCursor()
     {
-        Screen.lockCursor = true;
+        //Disable cursor
+        Cursor.visible = false;
     }
 
     private void rotateCharacter()
@@ -56,6 +72,7 @@ public class PlayerController : MonoBehaviour {
         if(Input.GetButton("Jump") && characterController.isGrounded)
         {
             verticalVelocity = playerJumpSpeed;
+            audioSource.PlayOneShot(jumpSound, 0.3f);
         }
 
         Vector3 newSpeed = new Vector3(leftRightVelocity, verticalVelocity, forwardVelocity);
@@ -63,26 +80,38 @@ public class PlayerController : MonoBehaviour {
 
         characterController.Move(newSpeed * Time.deltaTime);
     }
-    //czy mozliwe jest wykrycie uderzenia przez inny obiekt
-    //z poziomu CharacterControllera?
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+
+    private bool hasCharacterMoved()
     {
-        //Debug.Log("Player's collision with: " + hit.gameObject.name);
+        return ridgitBody.velocity.magnitude > 0;
     }
 
-    public void removeHealth(int delta)
+    public void playFootstep() {
+
+    }
+
+    private void checkIfPlayerFelt()
     {
-        playerHealth -= delta;
+        Vector3 playerPosition = this.transform.position;
 
-        Debug.Log("Current health: " + playerHealth);
-
-        if (playerHealth<=0 && !isDead)
+        if (playerPosition.y < fallingSoundPosition && !isPlayerFalling)
         {
-            isDead = true;
-            Debug.Log("Player is dying.");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Debug.Log("Player is falling");
+            audioSource.PlayOneShot(fallingSound);
+            isPlayerFalling = true;
         }
-        
+        if (playerPosition.y < minVerticalPosition)
+        {
+            Debug.Log("Player current vertical position is " + playerPosition.y);
+            kill();
+        }
+    }
+
+    public void kill()
+    {
+        isDead = true;
+        string sceneName = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene(sceneName);
     }
 
 }

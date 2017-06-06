@@ -29,7 +29,7 @@ public class KillingBallsSpawner : MonoBehaviour {
             transform.position.x,
             transform.position.y + 10.0f,
             transform.position.z
-            );
+        );
 
         ballPrefab.transform.position = newPosition;
     }

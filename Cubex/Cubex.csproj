@@ -75,12 +75,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Finish.cs" />
     <Compile Include="Assets\Scripts\KillingBallsSpawner.cs" />
     <Compile Include="Assets\Scripts\KillingBomb.cs" />
     <Compile Include="Assets\Scripts\KillingCube.cs" />
     <Compile Include="Assets\Scripts\KillingCubeSpawner.cs" />
     <Compile Include="Assets\Scripts\KillingObject.cs" />
+    <Compile Include="Assets\Scripts\LevelFinished.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerDeathSoundController.cs" />
   </ItemGroup>

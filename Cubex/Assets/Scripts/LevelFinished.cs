@@ -8,6 +8,7 @@ public class LevelFinished : MonoBehaviour {
 
     [SerializeField]
     private string nextLevel = "";
+    private bool active = false;
 
     public AudioSource audioSource;
 
@@ -17,14 +18,15 @@ public class LevelFinished : MonoBehaviour {
         if (other.gameObject.name == "Player")
         {
             Debug.Log("Level finished!");
-            audioSource.Play();
+            if(!active) audioSource.Play();
+            active = true;
             StartCoroutine(loadNextLevel());
         }
     }
 
     private IEnumerator loadNextLevel()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(3.0f);
         SceneManager.LoadScene(nextLevel);
     }
 

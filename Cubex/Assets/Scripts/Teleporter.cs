@@ -18,7 +18,6 @@ public class Teleporter : MonoBehaviour {
     {
         if (other.gameObject.name == "Player")
         {
-            //Debug.Log("TP!");
            // audioSource.Play();
             PlayerController player =  other.GetComponent<PlayerController>();
             StartCoroutine(TeleportCharacter(player));
@@ -27,7 +26,7 @@ public class Teleporter : MonoBehaviour {
 
     private IEnumerator TeleportCharacter(PlayerController player)
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.01f);
         Vector3 teleportationVector = new Vector3(teleportationX, teleportationY, teleportationZ);
         player.Move(teleportationVector, rotation);
     }

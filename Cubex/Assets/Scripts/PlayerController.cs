@@ -50,7 +50,16 @@ public class PlayerController : MonoBehaviour {
         checkIfPlayerFelt();
         rotateCharacter();
         moveCharacter();
+        checkIfLeaving();
 	}
+
+    private void checkIfLeaving()
+    {
+        if(Input.GetButton("Cancel"))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+    }
 
     private void disableMouseCursor()
     {

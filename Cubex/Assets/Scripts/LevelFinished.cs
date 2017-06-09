@@ -14,7 +14,6 @@ public class LevelFinished : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Entered finish!");
         if (other.gameObject.name == "Player")
         {
             Debug.Log("Level finished!");

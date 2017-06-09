@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -21,6 +22,14 @@ public class PlayerController : MonoBehaviour {
     private float verticalRotation = 0;
     private float verticalVelocity = 0;
     private float maximumAngle = 60.0f;
+
+    public void Move(Vector3 movementVector, float rotation)
+    {
+        //characterController.Move(movementVector);
+        transform.Rotate(0, rotation, 0);
+        transform.Translate(movementVector);
+    }
+
     private int playerHealth = 100;
     private bool isDead = false;
     private int deathCounter = 0;

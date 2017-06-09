@@ -7,12 +7,23 @@ public class KillingBomb : KillingObject {
 
     [SerializeField]
     private float timeToDestroy = 10.0f;
+    private float lifetime = 0.0f;
 
     public AudioSource audioSource;
 
 	void Start () {
         Debug.Log("Init killing bomb.");
         StartCoroutine(destroy());
+    }
+
+    private void Update()
+    {
+        lifetime += Time.deltaTime;
+        if (lifetime > timeToDestroy)
+        {
+            GetComponent<Renderer>().material.SetFloat("_Threshold", (lifetime-timeToDestroy));
+            print(GetComponent<Renderer>().material.GetFloat("_Threshold"));
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -35,8 +46,8 @@ public class KillingBomb : KillingObject {
 
     private IEnumerator destroy()
     {
-        yield return new WaitForSeconds(timeToDestroy);
-        Destroy(gameObject, timeToDestroy);
+        yield return new WaitForSeconds(timeToDestroy + 1.0f);
+        Destroy(gameObject, timeToDestroy + 1.0f);
     }
 
 }
